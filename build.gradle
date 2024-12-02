@@ -79,11 +79,6 @@ publishing {
                         name = 'Jacek Migdal'
                         organization = 'Sumo Logic'
                     }
-                    developer {
-                        id = 'goledzki'
-                        name = 'Greg Oledzki'
-                        organization = 'Sumo Logic'
-                    }
                 }
                 scm {
                     connection = 'scm:git:git@github.com:SumoLogic/sumo-java-client.git'
