@@ -115,7 +115,7 @@ public class SumoLogicClient implements SumoLogic {
     @Override
     public String createSearchJob(
             String query, String fromExpression, String toExpression, String timeZone) {
-        return createSearchJob(query, fromExpression, toExpression, timeZone, "false");
+        return createSearchJob(query, fromExpression, toExpression, timeZone, "false", null, "performance", "Manual", true);
     }
 
 
@@ -132,9 +132,17 @@ public class SumoLogicClient implements SumoLogic {
      */
     @Override
     public String createSearchJob(
-            String query, String fromExpression, String toExpression, String timeZone, String byReceiptTime) {
+            String query,
+            String fromExpression,
+            String toExpression,
+            String timeZone,
+            String byReceiptTime,
+            String intervalTimeType,
+            String autoParsingMode,
+            String parseMode,
+            Boolean requiresRawMessages) {
         CreateSearchJobRequest createSearchJobRequest =
-                new CreateSearchJobRequest(query, fromExpression, toExpression, timeZone, byReceiptTime);
+                new CreateSearchJobRequest(query, fromExpression, toExpression, timeZone, byReceiptTime, intervalTimeType, autoParsingMode, parseMode, requiresRawMessages);
         return searchJobClient.createSearchJob(
                 getConnectionConfig(), createSearchJobRequest);
     }

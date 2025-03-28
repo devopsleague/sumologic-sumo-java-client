@@ -58,7 +58,15 @@ public interface SumoLogic {
      * @return The search job ID.
      */
     String createSearchJob(
-            String query, String fromExpression, String toExpression, String timeZone, String byReceiptTime);
+            String query,
+            String fromExpression,
+            String toExpression,
+            String timeZone,
+            String byReceiptTime,
+            String intervalTimeType,
+            String autoParsingMode,
+            String parseMode,
+            Boolean requiresRawMessages);
 
     /**
      * Returns the current status of a search job.

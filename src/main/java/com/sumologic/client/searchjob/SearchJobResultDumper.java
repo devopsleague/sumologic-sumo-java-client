@@ -77,6 +77,14 @@ public class SearchJobResultDumper {
 
         String byReceiptTime = null;
 
+        String intervalTimeType = null;
+
+        String autoParsingMode = null;
+
+        String parseMode = null;
+
+        Boolean requiresRawMessages = true;
+
         // In chunk mode, the number of hours to execute the search query in.
         long chunkIncrementMillis = -1;
 
@@ -183,6 +191,22 @@ public class SearchJobResultDumper {
                 byReceiptTime = commandLine.getOptionValue("byReceiptTime");
             }
 
+            if (commandLine.hasOption("intervalTimeType")) {
+                intervalTimeType = commandLine.getOptionValue("intervalTimeType");
+            }
+
+            if (commandLine.hasOption("autoParsingMode")) {
+                autoParsingMode = commandLine.getOptionValue("autoParsingMode");
+            }
+            if (commandLine.hasOption("parseMode")) {
+                parseMode = commandLine.getOptionValue("parseMode");
+            }
+
+            if (commandLine.hasOption("requiresRawMessages")) {
+                requiresRawMessages = commandLine.hasOption("requiresRawMessages");
+            }
+
+
             searchQuery = commandLine.getOptionValue("query");
             searchQueryFilename = commandLine.getOptionValue("file");
             if (commandLine.hasOption("json")) {
@@ -285,7 +309,11 @@ public class SearchJobResultDumper {
                         timezone,
                         retry,
                         lastEndFile,
-                        byReceiptTime);
+                        byReceiptTime,
+                        intervalTimeType,
+                        autoParsingMode,
+                        parseMode,
+                        requiresRawMessages);
                 if (failure) {
                     break;
                 }
@@ -377,6 +405,31 @@ public class SearchJobResultDumper {
                         .withDescription("Search by receipt time instead of message time")
                         .hasArg()
                         .create("rt"));
+        options.addOption(
+                OptionBuilder.withLongOpt("intervalTimeType")
+                        .withArgName("intervalTimeType")
+                        .withDescription("Choose which interval type to query on")
+                        .hasArg()
+                        .create("itt"));
+        options.addOption(
+                OptionBuilder.withLongOpt("autoParsingMode")
+                        .withArgName("autoParsingMode")
+                        .withDescription("Decide whether the query has to be autoparsed or not")
+                        .hasArg()
+                        .create("apm"));
+        options.addOption(
+                OptionBuilder.withLongOpt("parseMode")
+                        .withArgName("parseMode")
+                        .withDescription("Deprecated old values such as performance, intelligent, and verbose")
+                        .hasArg()
+                        .create("pm"));
+        options.addOption(
+                OptionBuilder.withLongOpt("requiresRawMessages")
+                        .withArgName("requiresRawMessages")
+                        .withDescription("Check whether raw messages need to be fetched in results")
+                        .hasArg()
+                        .create("rrm"));
+
         options.addOption(
                 OptionBuilder.withLongOpt("hours")
                         .withArgName("hours")
@@ -488,7 +541,11 @@ public class SearchJobResultDumper {
                                                      String timeZone,
                                                      int retry,
                                                      String lastEndFile,
-                                                     String byReceiptTime) {
+                                                     String byReceiptTime,
+                                                     String intervalTimeType,
+                                                     String autoParsingMode,
+                                                     String parseMode,
+                                                     Boolean requiresRawMessages) {
 
         int triesLeft = retry;
         int attempt = 1;
@@ -512,7 +569,11 @@ public class SearchJobResultDumper {
                     timeZone,
                     attempt,
                     lastEndFile,
-                    byReceiptTime);
+                    byReceiptTime,
+                    intervalTimeType,
+                    autoParsingMode,
+                    parseMode,
+                    requiresRawMessages);
 
             if (failure) {
                 System.err.println(String.format(
@@ -539,7 +600,11 @@ public class SearchJobResultDumper {
                                          String timeZone,
                                          int attempt,
                                          String lastEndFile,
-                                         String byReceiptTime) {
+                                         String byReceiptTime,
+                                         String intervalTimeType,
+                                         String autoParsingMode,
+                                         String parseMode,
+                                         Boolean requiresRawMessages) {
 
         // Create the search job.
         String searchJobId = sumoClient.createSearchJob(
@@ -547,7 +612,11 @@ public class SearchJobResultDumper {
                 startTimestamp,
                 endTimestamp,
                 timeZone,
-                byReceiptTime);
+                byReceiptTime,
+                intervalTimeType,
+                autoParsingMode,
+                parseMode,
+                requiresRawMessages);
 
         System.err.printf("[%s] %s - Search job ID: '%s', attempt: '%d'\n",
                 new Date(), prefix, searchJobId, attempt);

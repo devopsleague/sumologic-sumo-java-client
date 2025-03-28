@@ -27,6 +27,13 @@ public final class CreateSearchJobRequest implements HttpPostRequest {
     private String to;
     private String timeZone;
     private String byReceiptTime;
+    private String intervalTimeType;
+    private String autoParsingMode;
+    private String parseMode;
+    private Boolean requiresRawMessages;
+
+
+
 
     /**
      * Creates a search job request.
@@ -40,12 +47,20 @@ public final class CreateSearchJobRequest implements HttpPostRequest {
                                   String from,
                                   String to,
                                   String timeZone,
-                                  String byReceiptTime) {
+                                  String byReceiptTime,
+                                  String intervalTimeType,
+                                  String autoParsingMode,
+                                  String parseMode,
+                                  Boolean requiresRawMessages) {
         this.query = query;
         this.from = from;
         this.to = to;
         this.timeZone = timeZone;
         this.byReceiptTime = byReceiptTime;
+        this.intervalTimeType = intervalTimeType;
+        this.autoParsingMode = autoParsingMode;
+        this.parseMode = parseMode;
+        this.requiresRawMessages = requiresRawMessages;
     }
 
     /**
@@ -170,6 +185,39 @@ public final class CreateSearchJobRequest implements HttpPostRequest {
         this.byReceiptTime = byReceiptTime;
     }
 
+    public Boolean getRequiresRawMessages() {
+        return requiresRawMessages;
+    }
+
+    public void setRequiresRawMessages(Boolean requiresRawMessages) {
+        this.requiresRawMessages = requiresRawMessages;
+    }
+
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public void setParseMode(String parseMode) {
+        this.parseMode = parseMode;
+    }
+
+    public String getAutoParsingMode() {
+        return autoParsingMode;
+    }
+
+    public void setAutoParsingMode(String autoParsingMode) {
+        this.autoParsingMode = autoParsingMode;
+    }
+
+    public String getIntervalTimeType() {
+        return intervalTimeType;
+    }
+
+    public void setIntervalTimeType(String intervalTimeType) {
+        this.intervalTimeType = intervalTimeType;
+    }
+
+
     /**
      * Sets the by receipt time flag.
      *
@@ -180,4 +228,25 @@ public final class CreateSearchJobRequest implements HttpPostRequest {
         setByReceiptTime(byReceiptTime);
         return this;
     }
+
+
+    public CreateSearchJobRequest withIntervalTimeType(String intervalTimeType) {
+        setIntervalTimeType(intervalTimeType);
+        return this;
+    }
+
+    public CreateSearchJobRequest withAutoParsingMode(String autoParsingMode) {
+        setAutoParsingMode(autoParsingMode);
+        return this;
+    }
+
+    public CreateSearchJobRequest withParseMode(String parseMode) {
+        setParseMode(parseMode);
+        return this;
+    }
+    public CreateSearchJobRequest withRequiresRawMessages(Boolean requiresRawMessages) {
+        setRequiresRawMessages(requiresRawMessages);
+        return this;
+    }
+
 }
